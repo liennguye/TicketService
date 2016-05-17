@@ -11,6 +11,13 @@
 	<properties>
 		<org.springframework.version>4.2.6.RELEASE</org.springframework.version>
 	</properties>
+	<repositories>
+
+		<repository>
+			<id>JBoss repository</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 
@@ -185,7 +192,12 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.10.1.RELEASE</version>
 		</dependency>
-
+		<!-- http://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

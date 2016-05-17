@@ -17,12 +17,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.TicketService.Model.Customer;
 import com.TicketService.Model.Role;
+import com.TicketService.Service.IEmailSenderService;
 import com.TicketService.ServiceImpl.CustomermanagementService;
 
 @Controller
 public class CustomerManagement {
+	
+	private CustomermanagementService customermanagementService;
+	private IEmailSenderService emailSenderService;
+
 	@Autowired
-	CustomermanagementService customermanagementService;
+	public CustomerManagement(CustomermanagementService customermanagementService,
+			IEmailSenderService emailSenderService) {
+
+		this.customermanagementService = customermanagementService;
+		this.emailSenderService = emailSenderService;
+	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.GET)
 	public String CustomerHome() {
@@ -86,21 +96,35 @@ public class CustomerManagement {
 	}
 
 	// Registration
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String showRegister(Model model) {
-		model.addAttribute("customer", new Customer());
-		model.addAttribute("RegisteredViewer",Role.RegisteredViewer);
-		return "register";
-	}
+	
+	 @RequestMapping(value = "/register", method = RequestMethod.GET) public
+	 String showRegister(Model model) { model.addAttribute("customer", new
+	 Customer()); model.addAttribute("RegisteredViewer",
+	 Role.RegisteredViewer); return "register"; }
+	 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String addRegister(@ModelAttribute Customer customer, BindingResult errors, HttpServletRequest request, 
+	public String addRegister(@ModelAttribute Customer customer, BindingResult errors, HttpServletRequest request,
 			Model model) {
-		customermanagementService.add(customer);
-		if(errors.hasErrors()){
-			System.out.println("error:" + errors.toString());
+
+		// send email
+		try {
+			String toAddr = "liennguyen2030@gmail.com";
+			String subject = "Hey.. This email sent by EA CS544 Group1";
+			String body = "Test by EA CS544 Group1";
+			emailSenderService.sendEmail(toAddr, subject, body);
+			customermanagementService.add(customer);
+
+			if (errors.hasErrors()) {
+				System.out.println("error:" + errors.toString());
+			}
+			model.addAttribute("customerForm", customer);
+		} catch (Exception ex) {
+			ex.getMessage();
+			System.out.println(ex.toString());
+		} finally {
+			return "RegistrationSuccess";
 		}
-		model.addAttribute("customerForm", customer);
-		return "RegistrationSuccess";
+
 	}
 }

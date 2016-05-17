@@ -7,6 +7,63 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Register User</title>
+
+<style>
+body {
+	margin:0;
+	padding:0;
+	text-align:center;
+	font-size:1.2em;
+}
+input, textarea {
+	font-size: 1em;
+	margin-top:5px;
+}
+
+label {
+	margin-top: 5px;
+}
+label:hover {
+    background: #333;
+    color: #fff;
+}
+
+input[type="text"]:focus{
+	outline: none;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border:1px solid #5AB0DB;
+}
+
+input[type="text"]:hover{
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+
+input[type="text"]:focus:hover{
+	outline: none;
+	box-shadow: 0px 0px 5px #61C5FA;
+	border:1px solid #5AB0DB;
+	border-radius:0;
+} 
+
+input[type=submit] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+input {
+	color: #666;
+    border: 1px solid #e8e8e8;
+    -webkit-appearance: textfield;
+    box-sizing: content-box;    
+    padding: 5px;
+}
+
+</style>
 </head>
 <body>
 <body>
@@ -50,7 +107,6 @@
 							data-parsley-trigger="change" placeholder="yourusername" />
 					</div>
 				</div>
-				<!-- Role = RegisteredViewer?????? -->
 				
 				<form:hidden path="userInfo.role" name="userInfo.role" value="${RegisteredViewer}"/>
 				

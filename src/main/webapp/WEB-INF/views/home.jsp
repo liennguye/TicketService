@@ -5,8 +5,8 @@
 	<title>Home</title>
 </head>
 <body>
-<h1> Hello world!   </h1>
-<P>  The time on the server is ${serverTime}. </P>
+<h1> EA CS544 Group1   </h1>
+<P>  Movie Ticket Booking Online </P>
 <a href="staff">Staff List</a>
 <br>
 <a href="register">Register</a>

@@ -1,4 +1,4 @@
-package com.TicketService.model;
+package com.TicketService.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,14 +10,33 @@ import javax.persistence.Id;
 public class Staff {
 	@Id
 	@GeneratedValue
-
 	private long id;
-
 	private String name;
 	private String address;
 	private String email;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-	@Enumerated(EnumType.STRING)
-	private Role role;
-
+	public long getId(){
+		return this.id;
+	}
+	public void setId(long id){
+		this.id = id;
+	}
 }

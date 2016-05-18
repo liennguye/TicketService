@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,7 @@ import com.TicketService.ServiceImpl.CustomermanagementService;
 
 @Controller
 public class CustomerManagement {
-	
+
 	private CustomermanagementService customermanagementService;
 	private IEmailSenderService emailSenderService;
 
@@ -32,6 +31,11 @@ public class CustomerManagement {
 
 		this.customermanagementService = customermanagementService;
 		this.emailSenderService = emailSenderService;
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home() {
+		return "home";
 	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.GET)
@@ -44,7 +48,7 @@ public class CustomerManagement {
 			@RequestParam("customerEmail") String customerEmail, Model model) {
 		List<Customer> customers = new ArrayList<Customer>();
 		if (customerName.isEmpty() && customerEmail.isEmpty()) {
-			model.addAttribute("errorMessage", "Please input criterian to find!");
+			model.addAttribute("errorMessage", "Please input criteria to find!");
 		} else if (customerName.isEmpty()) {
 			customers = customermanagementService.findCustomerByEmail(customerEmail);
 		} else if (customerEmail.isEmpty()) {
@@ -60,7 +64,7 @@ public class CustomerManagement {
 	public String showAddCustomer(Model model) {
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("page", "addCustomer");
-
+		model.addAttribute("usernameDisabled", "");
 		return "NewCustomer";
 	}
 
@@ -74,6 +78,7 @@ public class CustomerManagement {
 	public String viewEditCustomer(@PathVariable Long id, Model model) {
 		model.addAttribute("customer", customermanagementService.findOne(id));
 		model.addAttribute("page", "updateCustomer");
+		model.addAttribute("usernameDisabled", "true");
 		model.addAttribute("RegisteredViewer", Role.RegisteredViewer);
 		return "NewCustomer";
 	}
@@ -96,13 +101,15 @@ public class CustomerManagement {
 	}
 
 	// Registration
-	
-	 @RequestMapping(value = "/register", method = RequestMethod.GET) public
-	 String showRegister(Model model) { model.addAttribute("customer", new
-	 Customer()); model.addAttribute("RegisteredViewer",
-	 Role.RegisteredViewer); return "register"; }
-	 
 
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String showRegister(Model model) {
+		model.addAttribute("customer", new Customer());
+		model.addAttribute("RegisteredViewer", Role.RegisteredViewer);
+		return "register";
+	}
+
+	@SuppressWarnings("finally")
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String addRegister(@ModelAttribute Customer customer, BindingResult errors, HttpServletRequest request,
 			Model model) {

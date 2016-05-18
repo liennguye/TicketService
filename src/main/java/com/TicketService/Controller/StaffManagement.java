@@ -20,7 +20,7 @@ import com.TicketService.ServiceImpl.StaffmanagementService;
 @Controller
 public class StaffManagement {
 	@Autowired
-	StaffmanagementService usermanagementService;
+	StaffmanagementService staffmanagementService;
 	
 	@RequestMapping(value="/staff" , method = RequestMethod.GET)
 	public String staffHome(){
@@ -31,17 +31,14 @@ public class StaffManagement {
 	public String findStaff(@RequestParam("staffName") String staffName, @RequestParam("staffEmail") String staffEmail, Model model) {
 		List<Staff> staffs = new ArrayList<Staff>();
 		if (staffName.isEmpty() && staffEmail.isEmpty()){
-			model.addAttribute("errorMessage", "Please input criterian to find!");
+			model.addAttribute("errorMessage", "Please input criteria to find!");
 		}
 		else if (staffName.isEmpty()){
-			System.out.println("Find by Email");
-			staffs = usermanagementService.findStaffByEmail(staffEmail);
+			staffs = staffmanagementService.findStaffByEmail(staffEmail);
 		} else if(staffEmail.isEmpty()){
-			System.out.println("Find by Name: " + staffName);
-			staffs = usermanagementService.findStaffByName(staffName);
+			staffs = staffmanagementService.findStaffByName(staffName);
 		} else {
-			System.out.println("Find by Name and Email");
-			staffs = usermanagementService.findStaffByNameAndEmail(staffName, staffEmail);
+			staffs = staffmanagementService.findStaffByNameAndEmail(staffName, staffEmail);
 		}
 		model.addAttribute("staffs",staffs);
 		return "FindStaff";
@@ -56,13 +53,13 @@ public class StaffManagement {
 	@RequestMapping(value = "/staff/addStaff", method = RequestMethod.POST)
 	public String addStaff(@ModelAttribute Staff staff,
 			BindingResult errors, HttpServletRequest request) {		
-		usermanagementService.add(staff);
+		staffmanagementService.add(staff);
 		return "FindStaff";
 	}
 	
 	@RequestMapping(value="/staff/updateStaff/{id}", method=RequestMethod.GET)
 	public String viewEditStaff(@PathVariable Long id, Model model){		
-		model.addAttribute("staff", usermanagementService.findOne(id));		
+		model.addAttribute("staff", staffmanagementService.findOne(id));		
 		model.addAttribute("page", "addStaff");
 		return "NewStaff";
 	}
@@ -74,7 +71,7 @@ public class StaffManagement {
 		if (errors.hasErrors()) {
 			return null;
 		}
-	usermanagementService.update(staff);
+	staffmanagementService.update(staff);
 		return "FindStaff";
 	}
 
@@ -82,7 +79,7 @@ public class StaffManagement {
 	public String removeStaff(@PathVariable Long id, Model model)
 			throws Exception {
 		
-	usermanagementService.remove(id);
+	staffmanagementService.remove(id);
 		return "FindStaff";
 	}
 
